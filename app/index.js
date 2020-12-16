@@ -17,6 +17,8 @@ require('./authentication').init(app);
 const insecureSession = {
   secret: 'keyboard cat',
   cookie: {},
+  resave: false,
+  saveUninitialized: false,
 };
 app.use(session(insecureSession));
 
