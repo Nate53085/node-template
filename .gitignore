@@ -34,3 +34,5 @@ node_modules
 
 # Sqlite databases
 *.db
+
+# Remove .env
