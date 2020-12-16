@@ -64,7 +64,14 @@ function initPassport() {
   ((req, username, password, done) => {
     // Do any input validation
     // Ex: Check password and usernames match
-    // TODO
+    if (req.body['retype-username'] !== username) {
+      console.log('usernames do not match');
+      return done(null, false);
+    }
+    if (req.body['retype-password'] !== password) {
+      console.log('passwords do not match');
+      return done(null, false);
+    }
 
     // Validate the user doesn't exist
     findUser(username, async (err, user) => {
@@ -78,6 +85,7 @@ function initPassport() {
       authenticationDataStore.registerUser(username, passHash);
       return done(null, { username });
     });
+    return done(null, false);
   })));
 
   passport.authenticationMiddleware = authenticationMiddleware;
