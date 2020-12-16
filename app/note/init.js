@@ -1,11 +1,11 @@
-const passport = require('passport')
+const passport = require('passport');
 
-function initUser (app) {
+function initUser(app) {
   app.get('/notes/:id', passport.authenticationMiddleware(), (req, res) => {
     res.render('note/overview', {
-      id: req.params.id
-    })
-  })
+      id: req.params.id,
+    });
+  });
 }
 
-module.exports = initUser
+module.exports = initUser;
