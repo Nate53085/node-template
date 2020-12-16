@@ -56,7 +56,7 @@ function initPassport() {
           return done(null, user);
         });
 
-        console.log('Got here');
+        return null;
       });
     },
   ));
