@@ -10,15 +10,15 @@ const myPlaintextPassword = 'my-password';
 const salt = bcrypt.genSaltSync(saltRounds);
 const passwordHash = bcrypt.hashSync(myPlaintextPassword, salt);
 
-const user = {
+const testUser = {
   username: 'test-user',
   passwordHash,
   id: 1,
 };
 
 function findUser(username, callback) {
-  if (username === user.username) {
-    return callback(null, user);
+  if (username === testUser.username) {
+    return callback(null, testUser);
   }
   return callback(null);
 }
@@ -46,15 +46,17 @@ function initPassport() {
         }
 
         // Always use hashed passwords and fixed time comparison
-        bcrypt.compare(password, user.passwordHash, (err, isValid) => {
-          if (err) {
-            return done(err);
+        bcrypt.compare(password, user.passwordHash, (error, isValid) => {
+          if (error) {
+            return done(error);
           }
           if (!isValid) {
             return done(null, false);
           }
           return done(null, user);
         });
+
+        console.log('Got here');
       });
     },
   ));
