@@ -1,8 +1,6 @@
 const Database = require('better-sqlite3');
 const bcrypt = require('bcrypt'); // TODO: REMOVE
 
-console.log(process.env.DATABASE);
-
 const db = new Database(process.env.DATABASE, { verbose: console.log });
 
 const TABLENAME = 'user';

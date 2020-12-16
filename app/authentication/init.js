@@ -6,6 +6,9 @@ const authenticationMiddleware = require('./middleware');
 
 const authenticationDataStore = require('./authentication-data-store');
 
+const saltRounds = 10;
+const salt = bcrypt.genSaltSync(saltRounds);
+
 function findUser(username, callback) {
   const user = authenticationDataStore.getUser(username);
   if (user != null && username === user.username) {
@@ -51,6 +54,31 @@ function initPassport() {
       });
     },
   ));
+
+  passport.use('local-signup', new LocalStrategy({
+    // by default, local strategy uses username and password, we will override with email
+    username: 'username',
+    passwordField: 'password',
+    passReqToCallback: true, // allows us to pass back the entire request to the callback
+  },
+  ((req, username, password, done) => {
+    // Do any input validation
+    // Ex: Check password and usernames match
+    // TODO
+
+    // Validate the user doesn't exist
+    findUser(username, async (err, user) => {
+      if (user) {
+        console.log(`User ${user.username} already exists`);
+        return done(err);
+      }
+      // Register the user
+      console.log(`Registering ${username}`);
+      const passHash = await bcrypt.hash(password, salt);
+      authenticationDataStore.registerUser(username, passHash);
+      return done(null, { username });
+    });
+  })));
 
   passport.authenticationMiddleware = authenticationMiddleware;
 }
