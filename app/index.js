@@ -42,6 +42,6 @@ app.get('/', (req, res) => {
 });
 
 require('./user').init(app);
-require('./note').init(app);
+require('./portal').init(app);
 
 module.exports = app;
