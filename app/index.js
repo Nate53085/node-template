@@ -5,6 +5,7 @@ const exphbs = require('express-handlebars');
 const bodyParser = require('body-parser');
 const passport = require('passport');
 const session = require('express-session');
+const favicon = require('serve-favicon');
 
 const app = express();
 
@@ -40,6 +41,10 @@ app.get('/', (req, res) => {
     id: req.params.id,
   });
 });
+
+app.use('/public', express.static(path.join(__dirname, 'public'))); // Serves resources from public folder
+
+app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 
 require('./user').init(app);
 require('./portal').init(app);
