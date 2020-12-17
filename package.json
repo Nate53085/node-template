@@ -1,5 +1,5 @@
 {
-  "name": "@risingstack/nodehero-authentication",
+  "name": "@nate53085/node-template",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -9,15 +9,11 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/RisingStack/nodehero-authentication.git"
+    "url": "git+https://github.com/Nate53085/node-template.git"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/RisingStack/nodehero-authentication/issues"
-  },
-  "homepage": "https://github.com/RisingStack/nodehero-authentication#readme",
   "dependencies": {
     "bcrypt": "5.0.0",
     "better-sqlite3": "^7.1.1",
