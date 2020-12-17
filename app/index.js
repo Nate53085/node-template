@@ -35,6 +35,12 @@ app.engine('.hbs', exphbs({
 app.set('view engine', '.hbs');
 app.set('views', path.join(__dirname));
 
+app.get('/', (req, res) => {
+  res.render('home', {
+    id: req.params.id,
+  });
+});
+
 require('./user').init(app);
 require('./note').init(app);
 

@@ -85,7 +85,8 @@ function initPassport() {
       authenticationDataStore.registerUser(username, passHash);
       return done(null, { username });
     });
-    return done(null, false);
+
+    return null;
   })));
 
   passport.authenticationMiddleware = authenticationMiddleware;

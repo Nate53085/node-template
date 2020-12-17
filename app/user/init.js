@@ -15,16 +15,16 @@ function renderRegister(req, res) {
 }
 
 function initUser(app) {
-  app.get('/', renderWelcome);
+  app.get('/login', renderWelcome);
   app.get('/profile', passport.authenticationMiddleware(), renderProfile);
   app.get('/register', renderRegister);
   app.post('/register', passport.authenticate('local-signup', {
-    successRedirect: '/', // redirect to the secure profile section
+    successRedirect: '/login', // redirect to the secure profile section
     failureRedirect: '/register', // redirect back to the signup page if there is an error
   }));
   app.post('/login', passport.authenticate('local', {
     successRedirect: '/profile',
-    failureRedirect: '/',
+    failureRedirect: '/login',
   }));
 }
 
