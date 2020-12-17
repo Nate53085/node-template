@@ -13,6 +13,8 @@ Goal is to have all the plumbing in place to get a node app up and running. Only
 TODO:
 - Setup a test framework
 
+TO RUN:
+
 1. `git clone https://github.com/Nate53085/node-template.git`
 2. `cd node-template`
 3. `npm install`
