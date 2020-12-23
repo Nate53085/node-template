@@ -28,7 +28,9 @@ passport.deserializeUser((username, cb) => {
 function initPassport() {
   passport.use(new LocalStrategy(
     (username, password, done) => {
-      findUser(username, (err, user) => {
+      const usernameLower = username.toLowerCase();
+
+      findUser(usernameLower, (err, user) => {
         if (err) {
           return done(err);
         }
@@ -62,9 +64,11 @@ function initPassport() {
     passReqToCallback: true, // allows us to pass back the entire request to the callback
   },
   ((req, username, password, done) => {
+    const usernameLower = username.toLowerCase();
+
     // Do any input validation
     // Ex: Check password and usernames match
-    if (req.body['retype-username'] !== username) {
+    if (req.body['retype-username'].toLowerCase() !== usernameLower) {
       console.log('usernames do not match');
       return done(null, false);
     }
@@ -74,16 +78,16 @@ function initPassport() {
     }
 
     // Validate the user doesn't exist
-    findUser(username, async (err, user) => {
+    findUser(usernameLower, async (err, user) => {
       if (user) {
-        console.log(`User ${user.username} already exists`);
+        console.log(`User ${usernameLower} already exists`);
         return done(err);
       }
       // Register the user
-      console.log(`Registering ${username}`);
+      console.log(`Registering ${usernameLower}`);
       const passHash = await bcrypt.hash(password, salt);
-      authenticationDataStore.registerUser(username, passHash);
-      return done(null, { username });
+      authenticationDataStore.registerUser(usernameLower, passHash);
+      return done(null, { username: usernameLower });
     });
 
     return null;
