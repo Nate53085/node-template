@@ -1,5 +1,7 @@
 const passport = require('passport');
 const bcrypt = require('bcrypt');
+const validator = require('validator');
+
 const LocalStrategy = require('passport-local').Strategy;
 
 const authenticationMiddleware = require('./middleware');
@@ -8,6 +10,21 @@ const authenticationDataStore = require('./authentication-data-store');
 
 const saltRounds = 10;
 const salt = bcrypt.genSaltSync(saltRounds);
+
+const passwordOptions = {
+  minLength: 10,
+  minLowercase: 0,
+  minUppercase: 0,
+  minNumbers: 0,
+  minSymbols: 0,
+  returnScore: false,
+  pointsPerUnique: 1,
+  pointsPerRepeat: 0.5,
+  pointsForContainingLower: 10,
+  pointsForContainingUpper: 10,
+  pointsForContainingNumber: 10,
+  pointsForContainingSymbol: 10,
+};
 
 function findUser(username, callback) {
   const user = authenticationDataStore.getUser(username);
@@ -72,8 +89,16 @@ function initPassport() {
       console.log('usernames do not match');
       return done(null, false);
     }
+    if (!validator.isEmail(usernameLower)) {
+      console.log('username is not a valid email address');
+      return done(null, false);
+    }
     if (req.body['retype-password'] !== password) {
       console.log('passwords do not match');
+      return done(null, false);
+    }
+    if (!validator.isStrongPassword(password, passwordOptions)) {
+      console.log('password is not strong');
       return done(null, false);
     }
 
